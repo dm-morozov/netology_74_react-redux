@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { Post } from '../../types/crud'
 import { Link } from 'react-router-dom'
 import './crud.css'
+import API_URL from './api'
 
 const PostList = () => {
   const [posts, setPosts] = useState<Post[]>([])
@@ -11,7 +12,7 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:7070/posts')
+        const response = await fetch(API_URL)
         if (!response.ok) {
           throw new Error('Ошибка загрузки постов')
         }

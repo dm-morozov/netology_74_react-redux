@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { Post } from '../../types/crud'
 import './crud.css'
+import API_URL from './api'
 
 const PostView = () => {
   const [editing, setEditing] = useState(false)
@@ -15,7 +16,7 @@ const PostView = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch('http://localhost:7070/posts/' + id)
+        const response = await fetch(API_URL + id)
         if (!response.ok) {
           throw new Error('Ошибка загрузки поста')
         }
@@ -33,7 +34,7 @@ const PostView = () => {
   }, [id])
 
   const handleDelete = async () => {
-    await fetch('http://localhost:7070/posts/' + id, {
+    await fetch(API_URL + id, {
       method: 'DELETE',
     })
     navigate(-1)
@@ -43,7 +44,7 @@ const PostView = () => {
     setLoading(true)
     setError(null)
     try {
-      await fetch('http://localhost:7070/posts/' + id, {
+      await fetch(API_URL + id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

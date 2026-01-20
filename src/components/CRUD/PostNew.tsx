@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import API_URL from './api'
 
 const PostNew = () => {
   const [error, setError] = useState<string | null>(null)
@@ -13,7 +14,7 @@ const PostNew = () => {
     setError(null)
 
     try {
-      const response = await fetch('http://localhost:7070/posts', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
