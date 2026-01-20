@@ -4,6 +4,14 @@
 
 [![Netology](https://img.shields.io/badge/Netology-2026-green)](https://netology.ru)
 
+## Статус проекта
+
+[![Build & Deploy](https://github.com/dm-morozov/netology_73_react-router/actions/workflows/web.yaml/badge.svg)](https://github.com/dm-morozov/netology_73_react-router/actions/workflows/web.yaml)
+
+[Посмотреть демо](https://dm-morozov.github.io/netology_73_react-router/)
+
+---
+
 ---
 
 ## 📌 О проекте
