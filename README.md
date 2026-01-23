@@ -1,4 +1,4 @@
-# React Router
+# React Redux
 
 [![Netology](https://img.shields.io/badge/Netology-2026-green)](https://netology.ru)
 [![Build & Deploy](https://github.com/dm-morozov/netology_74_react-redux/actions/workflows/web.yaml/badge.svg)](https://github.com/dm-morozov/netology_74_react-redux/actions/workflows/web.yaml)
