@@ -1,8 +1,12 @@
+import Form from "./components/Editing/Form"
+import List from "./components/Editing/List"
+
 function App() {
   return (
-    <div className="App">
-      <h1>Hello</h1>
-    </div>
+    <>
+      <Form />
+      <List />
+    </>
   )
 }
 
