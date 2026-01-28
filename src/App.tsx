@@ -1,5 +1,5 @@
-import Form from "./components/Editing/Form"
-import List from "./components/Editing/List"
+import Form from './components/Editing/Form'
+import List from './components/Editing/List'
 
 function App() {
   return (
