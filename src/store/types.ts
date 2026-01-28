@@ -11,6 +11,9 @@ export interface State {
     name: string
     price: number
   }
+  filter: {
+    searchTerm: string
+  }
 }
 
 // Action Types
@@ -20,3 +23,7 @@ export const DELETE_ITEM = 'DELETE_ITEM'
 export const SET_FORM = 'SET_FORM'
 export const START_EDIT = 'START_EDIT'
 export const CANCEL_EDIT = 'CANCEL_EDIT'
+
+// Добавим новые action types для решения второй задачи с фильтрами
+export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
+export const CLEAR_SEARCH = 'CLEAR_SEARCH'

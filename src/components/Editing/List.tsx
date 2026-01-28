@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
-import type { State } from '../../store/types'
 import { deleteItem, startEdit } from '../../store/actions'
+import { selectFilteredItems } from '../../store/selectors'
 
 const List = () => {
   const dispatch = useDispatch()
 
-  const items = useSelector((state: State) => state.items)
+  const items = useSelector(selectFilteredItems)
 
   return (
     <ul>

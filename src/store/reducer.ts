@@ -1,8 +1,10 @@
 import {
   ADD_ITEM,
   CANCEL_EDIT,
+  CLEAR_SEARCH,
   DELETE_ITEM,
   SET_FORM,
+  SET_SEARCH_TERM,
   START_EDIT,
   UPDATE_ITEM,
   type State,
@@ -14,6 +16,9 @@ const initialState: State = {
   form: {
     name: '',
     price: 0,
+  },
+  filter: {
+    searchTerm: '',
   },
 }
 
@@ -66,6 +71,22 @@ export const reducer = (state = initialState, action: any): State => {
         ...state,
         editingId: null,
         form: { name: '', price: 0 },
+      }
+
+    case SET_SEARCH_TERM:
+      return {
+        ...state,
+        filter: {
+          searchTerm: action.payload,
+        },
+      }
+
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        filter: {
+          searchTerm: '',
+        },
       }
 
     default:
