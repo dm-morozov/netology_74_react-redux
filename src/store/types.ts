@@ -1,16 +1,16 @@
-export interface  Item {
-    id: number
-    name: string
-    price: number
+export interface Item {
+  id: number
+  name: string
+  price: number
 }
 
 export interface State {
-    items: Item[]
-    editingId: number | null
-    form: {
-        name: string
-        price: number
-    }
+  items: Item[]
+  editingId: number | null
+  form: {
+    name: string
+    price: number
+  }
 }
 
 // Action Types

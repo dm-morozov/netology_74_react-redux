@@ -7,6 +7,7 @@ const Form = () => {
   const { form, editingId } = useSelector((state: State) => state) // читать данные из Redux
 
   const handleSave = () => {
+    if (form.name === '' || form.price === 0) return
     if (editingId === null) {
       dispatch(
         addItem({
@@ -27,24 +28,37 @@ const Form = () => {
   }
 
   return (
-    <div>
+    <div className="form">
       <input
         type="text"
+        autoFocus
+        name="description"
         placeholder="Описание"
         value={form.name}
         onChange={(e) => dispatch(setForm(e.target.value, form.price))}
       />
       <input
         type="text"
+        name="price"
         placeholder="Цена"
-        value={form.price}
+        value={form.price === 0 ? '' : form.price}
         onChange={(e) => dispatch(setForm(form.name, Number(e.target.value)))}
       />
 
-      <button onClick={handleSave}>Save</button>
+      <button
+        className="btn-save"
+        onClick={() => {
+          handleSave()
+        }}
+        disabled={form.name === '' || form.price === 0}
+      >
+        Save
+      </button>
 
       {editingId !== null && (
-        <button onClick={() => dispatch(cancelEdit())}>Cancel</button>
+        <button className="btn-cancel" onClick={() => dispatch(cancelEdit())}>
+          Cancel
+        </button>
       )}
     </div>
   )
