@@ -7,6 +7,7 @@ import {
   SET_SEARCH_TERM,
   START_EDIT,
   UPDATE_ITEM,
+  type Action,
   type State,
 } from './types'
 
@@ -22,7 +23,7 @@ const initialState: State = {
   },
 }
 
-export const reducer = (state = initialState, action: any): State => {
+export const reducer = (state = initialState, action: Action): State => {
   switch (action.type) {
     case SET_FORM:
       return {

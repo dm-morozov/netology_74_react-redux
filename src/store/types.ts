@@ -27,3 +27,14 @@ export const CANCEL_EDIT = 'CANCEL_EDIT'
 // Добавим новые action types для решения второй задачи с фильтрами
 export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
 export const CLEAR_SEARCH = 'CLEAR_SEARCH'
+
+// Union-тип всех возможных actions
+export type Action =
+  | { type: typeof ADD_ITEM; payload: Item }
+  | { type: typeof UPDATE_ITEM; payload: Item }
+  | { type: typeof DELETE_ITEM; payload: number }
+  | { type: typeof SET_FORM; payload: { name: string; price: number } }
+  | { type: typeof START_EDIT; payload: number }
+  | { type: typeof CANCEL_EDIT }
+  | { type: typeof SET_SEARCH_TERM; payload: string }
+  | { type: typeof CLEAR_SEARCH; payload: string }
