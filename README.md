@@ -1,4 +1,4 @@
-# React Redux
+# Netology: React-Redux
 
 [![Netology](https://img.shields.io/badge/Netology-2026-green)](https://netology.ru)
 [![Build & Deploy](https://github.com/dm-morozov/netology_74_react-redux/actions/workflows/web.yaml/badge.svg)](https://github.com/dm-morozov/netology_74_react-redux/actions/workflows/web.yaml)
@@ -7,6 +7,180 @@
 
 ---
 
+Это учебный проект, разработанный в рамках заданий по курсу Netology. Проект реализует CRUD-приложение для управления списком услуг (или покупок) с использованием React, TypeScript и Redux. Основной фокус — на изучении Redux: управлении состоянием, actions, reducer, selectors и интеграции с React-компонентами.
+
+Проект охватывает два основных задания:
+
+- **Редактирование**: Добавление, обновление, удаление услуг с валидацией формы.
+- **Фильтрация**: Поиск по названию услуг с реал-тайм фильтрацией, статистикой и подсветкой совпадений.
+
+Обязательная функциональность реализована в соответствии с требованиями. Дополнительные задачи (например, сохранение в localStorage, анимации) не включены, чтобы сосредоточиться на базовых концепциях Redux.
+
+Проект написан на TypeScript для строгой типизации, что помогает новичкам избегать ошибок. Я объясню структуру и ключевые части шаг за шагом, как в домашнем задании: маленькими шагами, с объяснениями для каждой функции, метода или компонента. Главная цель — не просто сделать проект, а научиться программировать, поэтому я буду следовать инструкциям Netology строго.
+
+## Скриншоты
+
+(Добавьте скриншоты вашего приложения здесь, если выкладываете на GitHub. Например:
+
+- Главный экран с формой и списком.
+- Поиск с подсветкой.
+- Режим редактирования.)
+
+## Функциональность
+
+### Обязательная функциональность (из задания "Редактирование")
+
+- **Добавление услуг**: Форма с полями "Описание" (name) и "Цена" (price). Кнопка "Save" добавляет новую услугу в список. Форма очищается после добавления.
+- **Редактирование услуг**: Кнопка "Редактировать" заполняет форму данными услуги. Кнопка "Save" обновляет запись. Кнопка "Cancel" возвращает к режиму добавления.
+- **Удаление услуг**: Кнопка "Удалить" удаляет услугу. Если удаляется редактируемая — форма очищается.
+- **Валидация**: Поля обязательны (name не пустое, price > 0). Кнопка "Save" отключена, если форма неверна (disabled).
+
+### Обязательная функциональность (из задания "Фильтрация")
+
+- **Поиск**: Поле "Поиск услуг..." с реал-тайм фильтрацией (debounce 300ms для плавности). Поиск без учета регистра.
+- **Очистка поиска**: Кнопка "✕" очищает поле и фокусируется на инпуте.
+- **Статистика**: "Найдено X из Y" или "Всего записей: Y" если поиск пустой. Если 0 результатов — "Услуги не найдены".
+- **Подсветка**: Совпадения в названии подсвечиваются тегом <mark>.
+- **Интеграция с CRUD**: Все операции работают с отфильтрованным списком.
+
+### UI/UX
+
+- Режимы формы различаются: в редактировании появляется "Cancel".
+- Список отображается в <ul> с карточками (CSS с тенями).
+- Поле поиска всегда видно.
+- Нет модальных окон или сортировки (дополнительно).
+
+## Установка
+
+1. Клонируйте репозиторий:
+   ```
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
+   ```
+2. Установите зависимости:
+   ```
+   npm install
+   ```
+   (Требуются: react, react-dom, redux, react-redux. Нет nanoid, так как ID генерируются через Date.now().)
+3. Запустите проект:
+   ```
+   npm run dev
+   ```
+   Откройте http://localhost:5173 в браузере.
+
+## Структура проекта
+
+Проект следует стандартной структуре Vite + React + TypeScript. Я объясню каждый файл и директорию шаг за шагом, как для новичка: что это, зачем нужно, ключевые функции/методы с объяснениями.
+
+### Корневые файлы (src/)
+
+- **App.tsx**: Главный компонент приложения. Здесь собирается UI.
+  - Импортирует компоненты: Form, List, SearchFilter.
+  - Рендерит: заголовок "<h1>Список покупок — Redux</h1>", поиск, форму и список.
+  - Объяснение: Это точка входа в UI. Не содержит логики — только композиция компонентов. Для новичка: здесь мы видим, как React строит дерево компонентов.
+
+- **App.css** и **index.css**: Стили для всего приложения (шрифты, body).
+  - index.css: Глобальные стили (body, reset).
+  - App.css: Стили для App (если нужны).
+
+- **main.tsx**: Точка входа. Рендерит App в #root.
+  - Использует ReactDOM.createRoot().
+  - Объяснение: Это запускает React-приложение. Для новичка: здесь подключается Redux? Нет, store подключается в компонентах через Provider (но в этом проекте Provider не показан — предположительно в main.tsx или App).
+
+### Директория store/ (Redux-логика)
+
+Здесь вся магия Redux. Состояние глобальное: items (список), editingId (для редактирования), form (поля), filter (поиск).
+
+- **types.ts**: Определяет типы данных.
+  - Interface Item: { id: number, name: string, price: number } — структура услуги.
+  - Interface State: { items: Item[], editingId: number | null, form: {name, price}, filter: {searchTerm} } — структура Redux-state.
+  - Константы action types: ADD_ITEM, UPDATE_ITEM и т.д.
+  - Объяснение: TypeScript требует строгих типов. Для новичка: это как "контракт" — все действия и state типизированы, чтобы избежать ошибок.
+
+- **actions.ts**: Функции-генераторы actions (action creators).
+  - addItem(item: Item): Возвращает {type: ADD_ITEM, payload: item}. Добавляет новую услугу.
+  - updateItem(item: Item): {type: UPDATE_ITEM, payload: item}. Обновляет.
+  - deleteItem(id: number): {type: DELETE_ITEM, payload: id}. Удаляет.
+  - setForm(name: string, price: number): {type: SET_FORM, payload: {name, price}}. Устанавливает поля формы.
+  - startEdit(id: number): {type: START_EDIT, payload: id}. Начинает редактирование.
+  - cancelEdit(): {type: CANCEL_EDIT}. Отменяет.
+  - setSearchTerm(searchTerm: string): {type: SET_SEARCH_TERM, payload: searchTerm}. Устанавливает поиск.
+  - clearSearch(): {type: CLEAR_SEARCH, payload: ''}. Очищает поиск.
+  - Объяснение: Каждая функция — это "команда" для Redux. Для новичка: dispatch(addItem(item)) отправляет эту команду в reducer.
+
+- **reducer.ts**: Функция, обновляющая state на основе actions.
+  - initialState: Пустой state по умолчанию.
+  - reducer(state, action): switch по action.type.
+    - SET_FORM: Обновляет form.
+    - ADD_ITEM: Добавляет item в items, очищает form.
+    - START_EDIT: Находит item по id, устанавливает editingId и form.
+    - UPDATE_ITEM: Обновляет item в items, сбрасывает editingId и form.
+    - DELETE_ITEM: Фильтрует items без id.
+    - CANCEL_EDIT: Сбрасывает editingId и form.
+    - SET_SEARCH_TERM: Обновляет filter.searchTerm.
+    - CLEAR_SEARCH: Сбрасывает searchTerm.
+  - Объяснение: Reducer — "мозг" Redux. Он immutable (возвращает новый state с ...state). Для новичка: каждый case — реакция на action, как "если пришла команда ADD, то добавь в список".
+
+- **selectors.ts**: Функции для чтения state (с мемоизацией, но без reselect).
+  - selectItems(state): Возвращает state.items.
+  - selectSearchTerm(state): state.filter.searchTerm.
+  - selectFilteredItems(state): Фильтрует items по searchTerm (includes, toLowerCase).
+  - selectFilterStats(state): {found: filtered.length, total: all.length}.
+  - Объяснение: Селекторы — для производных данных. Для новичка: вместо чтения state напрямую, используй их в useSelector для оптимизации.
+
+- **store.ts**: Создает Redux-store.
+  - import {createStore, compose} from 'redux'.
+  - composeEnhancers для devtools.
+  - export const store = createStore(reducer, composeEnhancers()).
+  - Объяснение: Store — хранилище state. Для новичка: подключи <Provider store={store}> в main.tsx.
+
+### Директория components/Editing/ (UI-компоненты)
+
+- **Form.tsx**: Форма добавления/редактирования.
+  - useDispatch, useSelector для form и editingId.
+  - handleSave(): Если editingId null — addItem, иначе updateItem. Генерирует id через Date.now().
+  - Inputs: onChange dispatch(setForm(...)).
+  - Buttons: Save (disabled если пусто), Cancel (если editingId).
+  - Объяснение: Компонент с логикой. Для новичка: useSelector читает state, dispatch отправляет actions.
+
+- **List.tsx**: Список услуг.
+  - useDispatch, useSelector для filteredItems, filterStats, searchTerm.
+  - highlight(text, search): Подсвечивает совпадения RegExp и <mark>.
+  - Рендерит: статистику, <ul> с item (name, price, buttons: startEdit, deleteItem).
+  - Объяснение: Отображает filtered данные. Для новичка: useSelector(selectFilteredItems) — магия селекторов.
+
+- **SearchFilter.tsx**: Поле поиска.
+  - useDispatch, useSelector для searchTerm.
+  - localValue с useState для плавного ввода (debounce 300ms via useEffect).
+  - handleChange: setLocalValue.
+  - handleClear: setLocalValue(''), dispatch(clearSearch), focus.
+  - Объяснение: Локальный state для оптимизации. Для новичка: debounce — чтобы не спамить Redux на каждый keystroke.
+
+- **editing.css**: Стили для компонентов (form, list, search). Простые классы для layout, buttons, highlights.
+
+## Как работает приложение (шаг за шагом для новичка)
+
+1. Запуск: Redux-store создается, initialState пустой.
+2. Форма: Ввод в inputs → dispatch(setForm) → reducer обновляет form.
+3. Save (add): dispatch(addItem) → reducer добавляет в items.
+4. Edit: dispatch(startEdit) → reducer fills form.
+5. Поиск: Ввод → localValue → timeout dispatch(setSearchTerm) → reducer обновляет filter.
+6. List: useSelector(selectFilteredItems) → рендерит filtered.
+
+## Известные проблемы
+
+- Нет валидации на min 2 символа (только не пусто и price > 0).
+- ID через Date.now() — не уникально в production.
+- Нет localStorage.
+
+## Дополнительно
+
+- Это не production-ready. Фокус на обучении Redux.
+- Вдохновлено заданиями Netology: строго следовал требованиям без extras.
+- Если вопросы — создайте issue!
+
+Автор: Дмитрий Морозов
+Дата: Январь 2026
 
 ---
 
