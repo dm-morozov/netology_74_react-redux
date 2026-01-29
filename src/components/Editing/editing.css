@@ -16,18 +16,58 @@ h1.title {
 
 .form {
   display: flex;
+  align-items: baseline;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.form input {
+.search-filter {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex-grow: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.clear-btn {
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  background: #4f46e5;
+  color: #fff;
+
+  overflow: hidden;
+  white-space: nowrap;
+  width: 35px;
+  margin-left: 10px;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.clear-btn.is-hidden {
+  width: 0;
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  opacity: 0;
+  border: none;
+  pointer-events: none; /* Чтобы нельзя было кликнуть по невидимой кнопке */
+}
+
+.form input,
+.search-input {
   padding: 8px 10px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.form input:focus {
+.form input:focus,
+.search-input:focus {
   outline: none;
   border-color: #4f46e5;
 }
@@ -99,4 +139,9 @@ ul {
 
 .item button:last-child {
   color: #dc2626;
+}
+
+p > strong {
+  font-weight: 600;
+  color: #2563eb;
 }
